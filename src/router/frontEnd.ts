@@ -8,6 +8,7 @@ import { useUserInfo } from '/@/stores/userInfo';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { useRoutesList } from '/@/stores/routesList';
 import { NextLoading } from '/@/utils/loading';
+import {UserInfo} from "/@/api/login";
 
 // 前端控制路由
 
@@ -23,6 +24,12 @@ export async function initFrontEndControlRoutes() {
 	if (window.nextLoading === undefined) NextLoading.start();
 	// 无 token 停止执行下一步
 	if (!Session.get('token')) return false;
+	var user []
+	UserInfo().then((res)=>{
+		if (res.code == 200 ) {
+			user = res.data
+		}
+	})
 	// 触发初始化用户信息 pinia
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
 	await useUserInfo(pinia).setUserInfos();

@@ -96,37 +96,31 @@ export default defineComponent({
 		// 登录
 		const onSignIn = async () => {
 			state.loading.signIn = true;
-      const res = useLoginApi().signIn(state.ruleForm)
-      // eslint-disable-next-line no-console
-      console.log(res)
-      // eslint-disable-next-line no-console
-      console.log(111111)
-
-      // if (res.code == 200){
-      //
-      // }
-      if (!res) {
-        ElMessage.error(`登录失败`);
-        // 添加 loading，防止第一次进入界面时出现短暂空白
-        // NextLoading.start();
-        state.loading.signIn = false;
-      }else {
-        // 存储 token 到浏览器缓存
-        Session.set('token', Math.random().toString(36).substr(0));
-        // 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
-        Cookies.set('userName', state.ruleForm.userName);
-        if (!themeConfig.value.isRequestRoutes) {
-          // 前端控制路由，2、请注意执行顺序
-          await initFrontEndControlRoutes();
-          signInSuccess();
-        } else {
-          // 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-          // 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-          await initBackEndControlRoutes();
-          // 执行完 initBackEndControlRoutes，再执行 signInSuccess
-          signInSuccess();
-        }
-      }
+     useLoginApi().signIn(state.ruleForm).then((res)=>{
+       // eslint-disable-next-line no-empty
+       if (res.code == 200){
+         Session.set('token', res.data.token);
+         Session.set('endTime', res.data.expires_at);
+         if (!themeConfig.value.isRequestRoutes) {
+               // 前端控制路由，2、请注意执行顺序
+           initFrontEndControlRoutes();
+           signInSuccess();
+         } else {
+               // 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+               // 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+           initBackEndControlRoutes();
+           // 执行完 initBackEndControlRoutes，再执行 signInSuccess
+           signInSuccess();
+         }
+       }else {
+         ElMessage.error(res.msg);
+       }
+     }).catch(()=>{
+       ElMessage.error(`登录失败`);
+       // 添加 loading，防止第一次进入界面时出现短暂空白
+       // NextLoading.start();
+       // state.loading.signIn = false;
+     })
       state.loading.signIn = false;
 
 		};

@@ -1,11 +1,10 @@
 import request from '/@/utils/request';
 
 
-export function login(data:object) {
+export function UserInfo() {
 	return request({
-		url: '/v1/login',
-		method: 'post',
-		data:data
+		url: '/v1/user/info',
+		method: 'get',
 	})
 }
 
