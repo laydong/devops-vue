@@ -38,9 +38,9 @@ service.interceptors.response.use(
 					.then(() => {})
 					.catch(() => {});
 			}
-			return Promise.reject(res.msg);
+			// return Promise.reject(new Error(res.msg || 'Error'))
 		} else {
-			return response.data;
+			return res;
 		}
 	},
 	(error) => {

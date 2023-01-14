@@ -68,7 +68,7 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
-import {login} from "/@/api/login";
+import {login, useLoginApi} from "/@/api/login";
 
 export default defineComponent({
 	name: 'loginAccount',
@@ -81,7 +81,7 @@ export default defineComponent({
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				userName: 'admin',
+				userName: '282756287',
 				password: '123456',
 				code: '1234',
 			},
@@ -96,13 +96,20 @@ export default defineComponent({
 		// 登录
 		const onSignIn = async () => {
 			state.loading.signIn = true;
-      const flag = await login(state.ruleForm)
+      const res = useLoginApi().signIn(state.ruleForm)
       // eslint-disable-next-line no-console
-      console.log(flag)
-      if (!flag) {
+      console.log(res)
+      // eslint-disable-next-line no-console
+      console.log(111111)
+
+      // if (res.code == 200){
+      //
+      // }
+      if (!res) {
         ElMessage.error(`登录失败`);
         // 添加 loading，防止第一次进入界面时出现短暂空白
-        NextLoading.start();
+        // NextLoading.start();
+        state.loading.signIn = false;
       }else {
         // 存储 token 到浏览器缓存
         Session.set('token', Math.random().toString(36).substr(0));
