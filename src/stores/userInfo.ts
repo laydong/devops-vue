@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import Cookies from 'js-cookie';
 import { UserInfosStates } from './interface';
 import { Session } from '/@/utils/storage';
+import {UserInfo} from "/@/api/login";
 
 /**
  * 用户信息
@@ -30,11 +31,19 @@ export const useUserInfo = defineStore('userInfo', {
 		// 模拟接口数据
 		// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
 		async getApiUserInfo() {
+			// eslint-disable-next-line no-unused-vars
+			var user = []
+			UserInfo().then((res)=>{
+				if (res.code == 200 ) {
+					user = res.data
+				}
+			})
 			return new Promise((resolve) => {
 				setTimeout(() => {
 					// 模拟数据，请求接口时，记得删除多余代码及对应依赖的引入
-					const userName = Cookies.get('userName');
+					// const userName = Cookies.get('userName');
 					// 模拟数据
+					const userName = user.nickname
 					let defaultRoles: Array<string> = [];
 					let defaultAuthBtnList: Array<string> = [];
 					// admin 页面权限标识，对应路由 meta.roles，用于控制路由的显示/隐藏
