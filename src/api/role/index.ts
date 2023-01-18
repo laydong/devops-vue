@@ -17,6 +17,14 @@ export function CreateRole(params?: object) {
 	})
 }
 
+export function UpdateRole(params?: object) {
+	return request({
+		url: '/v1/role/update',
+		method: 'post',
+		params
+	})
+}
+
 
 /**
  * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu

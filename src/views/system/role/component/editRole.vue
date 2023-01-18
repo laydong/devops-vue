@@ -5,7 +5,7 @@
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="角色名称">
-							<el-input v-model="ruleForm.roleName" placeholder="请输入角色名称" clearable></el-input>
+							<el-input v-model="ruleForm.name" placeholder="请输入角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 <!--					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
@@ -53,7 +53,8 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent } from 'vue';
-import {CreateRole} from "/@/api/role";
+import { UpdateRole} from "/@/api/role";
+import {ElMessage} from "element-plus/es";
 
 // 定义接口来定义对象的类型
 interface MenuDataTree {
@@ -62,15 +63,26 @@ interface MenuDataTree {
 	children?: MenuDataTree[];
 }
 interface DialogRow {
+  id :number;
 	name: string;
 	isAdmin: boolean;
 	sort: number;
 	status: boolean;
 	describe: string;
 }
+
+interface Role {
+  id :number;
+  name: string;
+  is_admin: number;
+  sort: number;
+  status: number;
+  describe: string;
+}
 interface RoleState {
 	isShowDialog: boolean;
 	ruleForm: DialogRow;
+  roleForm:Role;
 	menuData: Array<MenuDataTree>;
 	menuProps: {
 		children: string;
@@ -84,12 +96,21 @@ export default defineComponent({
 		const state = reactive<RoleState>({
 			isShowDialog: false,
 			ruleForm: {
+        id:0,//ID
 				name: '', // 角色名称
 				isAdmin: false, // 是否超级管理
 				sort: 0, // 排序
 				status: true, // 角色状态
 				describe: '', // 角色描述
 			},
+      roleForm: {
+        id:0,//ID
+        name: '', // 角色名称
+        is_admin: 0, // 是否超级管理
+        sort: 0, // 排序
+        status: 2, // 角色状态
+        describe: '', // 角色描述
+      },
 			menuData: [],
 			menuProps: {
 				children: 'children',
@@ -112,8 +133,22 @@ export default defineComponent({
 		};
 		// 新增
 		const onSubmit = () => {
-      CreateRole().then()
-			closeDialog();
+      state.roleForm.id = state.ruleForm.id
+      state.roleForm.name = state.ruleForm.name
+      state.roleForm.is_admin = state.ruleForm.isAdmin == true ? 1 : 0
+      state.roleForm.status = state.ruleForm.status == true ? 1 : 2
+      state.roleForm.sort = state.ruleForm.sort
+      state.roleForm.describe = state.ruleForm.describe
+
+      UpdateRole(state.roleForm).then((res)=>{
+        if ( res.code == 200 ) {
+          ElMessage.success(res.msg);
+          closeDialog();
+        }else {
+          ElMessage.error(res.msg);
+        }
+      })
+
 		};
 		// 获取菜单结构数据
 		const getMenuData = () => {
