@@ -1,13 +1,22 @@
 import request from '/@/utils/request';
 
 
-export function MenuList(params?: object) {
+export function RoleList(params?: object) {
 	return request({
-		url: '/v1/menu/list',
+		url: '/v1/role/list',
 		method: 'get',
 		params
 	})
 }
+
+export function CreateRole(params?: object) {
+	return request({
+		url: '/v1/role/create',
+		method: 'post',
+		params
+	})
+}
+
 
 /**
  * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu

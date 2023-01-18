@@ -8,19 +8,20 @@
 							<el-input v-model="ruleForm.roleName" placeholder="请输入角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
+<!--					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
+<!--						<el-form-item label="角色标识">-->
+<!--							<template #label>-->
+<!--								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">-->
+<!--									<span>角色标识</span>-->
+<!--								</el-tooltip>-->
+<!--							</template>-->
+<!--							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>-->
+<!--						</el-form-item>-->
+<!--					</el-col>-->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="角色标识">
-							<template #label>
-								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">
-									<span>角色标识</span>
-								</el-tooltip>
-							</template>
-							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="排序">
-							<el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
+						<el-form-item label="是否超级管理">
+              <el-switch v-model="ruleForm.isAdmin" inline-prompt active-text="是" inactive-text="否"></el-switch>
+<!--							<el-input-number v-model="ruleForm.is_admin" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />-->
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -52,6 +53,7 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent } from 'vue';
+import {CreateRole} from "/@/api/role";
 
 // 定义接口来定义对象的类型
 interface MenuDataTree {
@@ -60,8 +62,8 @@ interface MenuDataTree {
 	children?: MenuDataTree[];
 }
 interface DialogRow {
-	roleName: string;
-	roleSign: string;
+	name: string;
+	isAdmin: boolean;
 	sort: number;
 	status: boolean;
 	describe: string;
@@ -82,8 +84,8 @@ export default defineComponent({
 		const state = reactive<RoleState>({
 			isShowDialog: false,
 			ruleForm: {
-				roleName: '', // 角色名称
-				roleSign: '', // 角色标识
+				name: '', // 角色名称
+				isAdmin: false, // 是否超级管理
 				sort: 0, // 排序
 				status: true, // 角色状态
 				describe: '', // 角色描述
@@ -110,6 +112,7 @@ export default defineComponent({
 		};
 		// 新增
 		const onSubmit = () => {
+      CreateRole().then()
 			closeDialog();
 		};
 		// 获取菜单结构数据

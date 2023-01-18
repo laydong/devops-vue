@@ -2,7 +2,7 @@
 	<div class="system-role-container">
 		<el-card shadow="hover">
 			<div class="system-user-search mb15">
-				<el-input size="default" placeholder="请输入角色名称" style="max-width: 180px"> </el-input>
+				<el-input type="text" size="default" placeholder="请输入角色名称" style="max-width: 180px"> </el-input>
 				<el-button size="default" type="primary" class="ml10">
 					<el-icon>
 						<ele-Search />
@@ -17,24 +17,29 @@
 				</el-button>
 			</div>
 			<el-table :data="tableData.data" style="width: 100%">
-				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="roleName" label="角色名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="roleSign" label="角色标识" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="sort" label="排序" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="id" label="序号" width="60" />
+				<el-table-column prop="name" label="角色名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="isAdmin" label="是否超管" show-overflow-tooltip>
+          <template #default="scope">
+            <el-tag type="success" v-if="scope.row.isAdmin">是</el-tag>
+            <el-tag type="info" v-else>否</el-tag>
+          </template>
+        </el-table-column>
 				<el-table-column prop="status" label="角色状态" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
 						<el-tag type="info" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
+        <el-table-column prop="sort" label="排序" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="describe" label="角色描述" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="100">
 					<template #default="scope">
-						<el-button :disabled="scope.row.roleName === '超级管理员'" size="small" text type="primary" @click="onOpenEditRole(scope.row)"
+						<el-button :disabled="scope.row.id === 1" size="small" text type="primary" @click="onOpenEditRole(scope.row)"
 							>修改</el-button
 						>
-						<el-button :disabled="scope.row.roleName === '超级管理员'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+						<el-button :disabled="scope.row.id === 1" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -62,12 +67,15 @@ import { toRefs, reactive, onMounted, ref, defineComponent } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import AddRole from '/@/views/system/role/component/addRole.vue';
 import EditRole from '/@/views/system/role/component/editRole.vue';
+import {RoleList} from "/@/api/role";
 
 // 定义接口来定义对象的类型
 interface TableData {
-	roleName: string;
-	roleSign: string;
+  id :number;
+	name: string;
+	// roleSign: string;
 	describe: string;
+  isAdmin:boolean;
 	sort: number;
 	status: boolean;
 	createTime: string;
@@ -104,18 +112,31 @@ export default defineComponent({
 		// 初始化表格数据
 		const initTableData = () => {
 			const data: Array<TableData> = [];
-			for (let i = 0; i < 2; i++) {
-				data.push({
-					roleName: i === 0 ? '超级管理员' : '普通用户',
-					roleSign: i === 0 ? 'admin' : 'common',
-					describe: `测试角色${i + 1}`,
-					sort: i,
-					status: true,
-					createTime: new Date().toLocaleString(),
-				});
-			}
-			state.tableData.data = data;
-			state.tableData.total = state.tableData.data.length;
+      var params = [
+        {
+          page:state.tableData.param.pageNum,
+          per_page:state.tableData.param.pageSize,
+          name:'',
+          status:0,
+        }
+      ]
+      RoleList(params).then((res)=>{
+        if (res.code == 200 ) {
+          res.data.data.forEach((v: { name: any; describe: any; id: any; sort:any, status: number;is_admin:number, created_at: any; }, i: number) => {
+            return data.push({
+              id: v.id,
+              name: v.name,
+              sort: v.sort,
+              describe: v.describe,
+              isAdmin: v.is_admin == 1 ? true : false,
+              status: v.status === 1 ? true : false,
+              createTime: v.created_at,
+            });
+          })
+          state.tableData.data = data;
+          state.tableData.total = state.tableData.data.length;
+        }
+      })
 		};
 		// 打开新增角色弹窗
 		const onOpenAddRole = () => {
