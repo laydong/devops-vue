@@ -18,8 +18,13 @@
 <!--							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>-->
 <!--						</el-form-item>-->
 <!--					</el-col>-->
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+            <el-form-item label="排序">
+              <el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
+            </el-form-item>
+          </el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="是否超级管理">
+						<el-form-item label="是否超管">
               <el-switch v-model="ruleForm.isAdmin" inline-prompt active-text="是" inactive-text="否"></el-switch>
 <!--							<el-input-number v-model="ruleForm.is_admin" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />-->
 						</el-form-item>
@@ -139,7 +144,6 @@ export default defineComponent({
       state.roleForm.status = state.ruleForm.status == true ? 1 : 2
       state.roleForm.sort = state.ruleForm.sort
       state.roleForm.describe = state.ruleForm.describe
-
       UpdateRole(state.roleForm).then((res)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
