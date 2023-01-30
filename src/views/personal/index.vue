@@ -7,21 +7,21 @@
 					<div class="personal-user">
 						<div class="personal-user-left">
 							<el-upload class="h100 personal-user-left-upload" action="https://jsonplaceholder.typicode.com/posts/" multiple :limit="1">
-								<img src="https://img2.baidu.com/it/u=1978192862,2048448374&fm=253&fmt=auto&app=138&f=JPEG?w=504&h=500" />
+								<img :src="userInfos.avatar" />
 							</el-upload>
 						</div>
 						<div class="personal-user-right">
 							<el-row>
-								<el-col :span="24" class="personal-title mb18">{{ currentTime }}，admin，生活变的再糟糕，也不妨碍我变得更好！ </el-col>
+								<el-col :span="24" class="personal-title mb18">{{ currentTime }}，{{ userInfos.nickname === '' ? 'common' : userInfos.nickname }}，生活变的再糟糕，也不妨碍我变得更好！ </el-col>
 								<el-col :span="24">
 									<el-row>
 										<el-col :xs="24" :sm="8" class="personal-item mb6">
 											<div class="personal-item-label">昵称：</div>
-											<div class="personal-item-value">小柒</div>
+											<div class="personal-item-value">{{ userInfos.nickname }}</div>
 										</el-col>
 										<el-col :xs="24" :sm="16" class="personal-item mb6">
 											<div class="personal-item-label">身份：</div>
-											<div class="personal-item-value">超级管理</div>
+											<div class="personal-item-value">{{ userInfos.roles }}</div>
 										</el-col>
 									</el-row>
 								</el-col>
@@ -29,11 +29,11 @@
 									<el-row>
 										<el-col :xs="24" :sm="8" class="personal-item mb6">
 											<div class="personal-item-label">登录IP：</div>
-											<div class="personal-item-value">192.168.1.1</div>
+											<div class="personal-item-value">{{ userInfos.login_ip }}</div>
 										</el-col>
 										<el-col :xs="24" :sm="16" class="personal-item mb6">
 											<div class="personal-item-label">登录时间：</div>
-											<div class="personal-item-value">2021-02-05 18:47:26</div>
+											<div class="personal-item-value">{{ userInfos.login_time }}</div>
 										</el-col>
 									</el-row>
 								</el-col>
@@ -187,6 +187,8 @@
 import { toRefs, reactive, computed, defineComponent } from 'vue';
 import { formatAxis } from '/@/utils/formatTime';
 import { newsInfoList, recommendList } from './mock';
+import {storeToRefs} from "pinia";
+import {useUserInfo} from "/@/stores/userInfo";
 
 // 定义接口来定义对象的类型
 interface PersonalState {
@@ -198,6 +200,8 @@ interface PersonalState {
 export default defineComponent({
 	name: 'personal',
 	setup() {
+    const stores = useUserInfo();
+    const { userInfos } = storeToRefs(stores);
 		const state = reactive<PersonalState>({
 			newsInfoList,
 			recommendList,
@@ -215,6 +219,7 @@ export default defineComponent({
 			return formatAxis(new Date());
 		});
 		return {
+      userInfos,
 			currentTime,
 			...toRefs(state),
 		};

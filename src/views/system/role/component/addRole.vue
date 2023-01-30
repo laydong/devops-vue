@@ -8,21 +8,26 @@
 							<el-input v-model="ruleForm.roleName" placeholder="请输入角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="角色标识">
-							<template #label>
-								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">
-									<span>角色标识</span>
-								</el-tooltip>
-							</template>
-							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>
-						</el-form-item>
-					</el-col>
+<!--					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
+<!--						<el-form-item label="角色标识">-->
+<!--							<template #label>-->
+<!--								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">-->
+<!--									<span>角色标识</span>-->
+<!--								</el-tooltip>-->
+<!--							</template>-->
+<!--							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>-->
+<!--						</el-form-item>-->
+<!--					</el-col>-->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
 							<el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
 						</el-form-item>
 					</el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+            <el-form-item label="是否超管">
+              <el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+            </el-form-item>
+          </el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="角色状态">
 							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
@@ -62,8 +67,9 @@ interface MenuDataTree {
 interface RoleState {
 	isShowDialog: boolean;
 	ruleForm: {
-		roleName: string;
-		roleSign: string;
+		name: string;
+    isAdmin : boolean;
+		// roleSign: string;
 		sort: number;
 		status: boolean;
 		describe: string;
