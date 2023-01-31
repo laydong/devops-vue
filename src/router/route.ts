@@ -78,6 +78,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 						},
 					},
 					{
+						path: '/system/api',
+						name: 'systemApi',
+						component: () => import('/@/views/system/api/index.vue'),
+						meta: {
+							title: 'message.router.systemApi',
+							isLink: '',
+							isHide: false,
+							isKeepAlive: true,
+							isAffix: false,
+							isIframe: false,
+							roles: ['admin'],
+							icon: 'iconfont icon-caidan',
+						},
+					},
+					{
 						path: '/system/role',
 						name: 'systemRole',
 						component: () => import('/@/views/system/role/index.vue'),

@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { UserInfosStates } from './interface';
-import { Session } from '/@/utils/storage';
-import {UserInfo} from "/@/api/login";
+import {defineStore} from 'pinia';
+import {UserInfosStates} from './interface';
+import {Session} from '/@/utils/storage';
+import {userApi} from "/@/api/user";
 
 /**
  * 用户信息
@@ -29,8 +29,7 @@ export const useUserInfo = defineStore('userInfo', {
 			if (Session.get('userInfo')) {
 				this.userInfos = Session.get('userInfo');
 			} else {
-				const userInfos: any = await this.getApiUserInfo();
-				this.userInfos = userInfos;
+				await this.getApiUserInfo();
 			}
 		},
 		// 模拟接口数据
@@ -38,7 +37,7 @@ export const useUserInfo = defineStore('userInfo', {
 		async getApiUserInfo() {
 			return new Promise((resolve) => {
 				setTimeout(() => {
-					UserInfo().then((res)=>{
+					userApi().UserInfo().then((res)=>{
 						if (res.code == 200 ) {
 							this.userInfos.id = res.data.id
 							this.userInfos.avatar = res.data.avatar

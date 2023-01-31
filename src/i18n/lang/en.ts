@@ -4,6 +4,7 @@ export default {
 		home: 'home',
 		system: 'system',
 		systemMenu: 'systemMenu',
+		systemApi: 'systemApi',
 		systemRole: 'systemRole',
 		systemUser: 'systemUser',
 		systemDept: 'systemDept',

@@ -8,7 +8,6 @@ import { useUserInfo } from '/@/stores/userInfo';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { useRoutesList } from '/@/stores/routesList';
 import { NextLoading } from '/@/utils/loading';
-import {UserInfo} from "/@/api/login";
 
 // 前端控制路由
 
