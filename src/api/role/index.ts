@@ -1,50 +1,24 @@
 import request from '/@/utils/request';
 
 
-export function RoleList(params?: object) {
-	return request({
-		url: '/v1/role/list',
-		method: 'get',
-		params
-	})
-}
-
-export function CreateRole(params?: object) {
-	return request({
-		url: '/v1/role/create',
-		method: 'post',
-		params
-	})
-}
-
-export function UpdateRole(params?: object) {
-	return request({
-		url: '/v1/role/update',
-		method: 'post',
-		params
-	})
-}
-
-
 /**
- * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu
- * 后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
- * @method getMenuAdmin 获取后端动态路由菜单(admin)
- * @method getMenuTest 获取后端动态路由菜单(test)
+ * 角色管理
+ * @method getRoleList 获取角色列表
+ * @method UpdateRole 更新角色信息
  */
-export function useMenuApi() {
+export function useRole() {
 	return {
-		getMenuAdmin: (params?: object) => {
+		getRoleList: (params?: object) => {
 			return request({
-				url: '/gitee/lyt-top/vue-next-admin-images/raw/master/menu/adminMenu.json',
+				url: '/role/list',
 				method: 'get',
 				params,
 			});
 		},
-		getMenuTest: (params?: object) => {
+		UpdateRole: (params?: object) => {
 			return request({
-				url: '/gitee/lyt-top/vue-next-admin-images/raw/master/menu/testMenu.json',
-				method: 'get',
+				url: '/role/update',
+				method: 'post',
 				params,
 			});
 		},

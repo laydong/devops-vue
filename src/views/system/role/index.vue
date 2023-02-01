@@ -67,7 +67,7 @@ import { toRefs, reactive, onMounted, ref, defineComponent } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import AddRole from '/@/views/system/role/component/addRole.vue';
 import EditRole from '/@/views/system/role/component/editRole.vue';
-import {RoleList} from "/@/api/role";
+import {useRole} from "/@/api/role";
 
 // 定义接口来定义对象的类型
 interface TableData {
@@ -120,7 +120,7 @@ export default defineComponent({
           status:0,
         }
       ]
-      RoleList(params).then((res)=>{
+      useRole().getRoleList(params).then((res)=>{
         if (res.code == 200 ) {
           res.data.data.forEach((v: { name: any; describe: any; id: any; sort:any, status: number;is_admin:number, created_at: any; }, i: number) => {
             return data.push({

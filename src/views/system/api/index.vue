@@ -19,35 +19,52 @@
 			<el-table :data="menuTableData" style="width: 100%" row-key="path" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 				<el-table-column label="API名称" show-overflow-tooltip>
 					<template #default="scope">
-						<SvgIcon :name="scope.row.meta.icon" />
-						<span class="ml10">{{ $t(scope.row.meta.title) }}</span>
+<!--						<SvgIcon :name="scope.row.meta.icon" />-->
+						<span class="ml10">{{ $t(scope.row.title) }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
-				<el-table-column label="组件路径" show-overflow-tooltip>
+				<el-table-column prop="path" label="路由路径" show-overflow-tooltip>
+          <template #default="scope">
+            <span>{{ scope.row.url }}</span>
+          </template>
+        </el-table-column>
+				<el-table-column label="请求方式" show-overflow-tooltip>
 					<template #default="scope">
-						<span>{{ scope.row.component }}</span>
+						<span>{{ scope.row.method }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column label="权限标识" show-overflow-tooltip>
-					<template #default="scope">
-						<span>{{ scope.row.meta.roles }}</span>
-					</template>
+				<el-table-column label="是否鉴权" show-overflow-tooltip>
+          <template #default="scope">
+            <el-tag type="success" v-if="scope.row.hidden == 1">鉴权</el-tag>
+            <el-tag type="info" v-else>不鉴权</el-tag>
+          </template>
 				</el-table-column>
+        <el-table-column label="鉴权类型" show-overflow-tooltip>
+          <template #default="scope">
+            <el-tag type="success" v-if="scope.row.type == 1">角色鉴权</el-tag>
+            <el-tag type="info" v-else>登录鉴权</el-tag>
+          </template>
+        </el-table-column>
 				<el-table-column label="排序" show-overflow-tooltip width="80">
 					<template #default="scope">
-						{{ scope.$index }}
+						{{ scope.row.sort }}
 					</template>
 				</el-table-column>
-				<el-table-column label="类型" show-overflow-tooltip width="80">
+
+        <el-table-column label="状态" show-overflow-tooltip>
+          <template #default="scope">
+            <el-switch v-model="scope.row.value" active-value=1 inactive-value=2></el-switch>
+          </template>
+        </el-table-column>
+				<el-table-column label="更新时间" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
+						{{ scope.row.updated_at }}
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" show-overflow-tooltip width="140">
 					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onOpenAddMenu">新增</el-button>
-						<el-button size="small" text type="primary" @click="onOpenEditMenu(scope.row)">修改</el-button>
+<!--						<el-button size="small" text type="primary" @click="onOpenAddMenu">新增</el-button>-->
+						<el-button size="small" text type="primary" @click="onOpenEditApi(scope.row)">修改</el-button>
 						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -62,30 +79,97 @@
 import { ref, toRefs, reactive, computed, defineComponent } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { useRoutesList } from '/@/stores/routesList';
-import AddMenu from '/@/views/system/menu/component/addMenu.vue';
-import EditMenu from '/@/views/system/menu/component/editMenu.vue';
+import AddMenu from '/@/views/system/api/component/addApi.vue';
+import EditMenu from '/@/views/system/api/component/editApi.vue';
+import {useLoginApi} from "/@/api/api";
 
+interface TableData {
+  id :number;
+  title: string;
+  hidden: number;
+  type:number;
+  url: string;
+  method: string;
+  sort: number;
+  status:number;
+  value:boolean;
+  remark:string;
+  created_at:string;
+  updated_at:string;
+}
+
+interface TableDataState {
+  tableData: {
+    data: Array<TableData>;
+    total: number;
+    loading: boolean;
+    param: {
+      pageNum: number;
+      pageSize: number;
+    };
+  };
+}
 export default defineComponent({
 	name: 'systemApi',
 	components: { AddMenu, EditMenu },
 	setup() {
-		const stores = useRoutesList();
-		const { routesList } = storeToRefs(stores);
+		// const stores = useRoutesList();
+		// const { routesList } = storeToRefs(stores);
 		const addMenuRef = ref();
 		const editMenuRef = ref();
-		const state = reactive({});
-		// 获取 vuex 中的路由
+    const state = reactive<TableDataState>({
+      tableData: {
+        data: [],
+        total: 0,
+        loading: false,
+        param: {
+          pageNum: 1,
+          pageSize: 10,
+        },
+      },
+    });
+    const data: Array<TableData> = [];
+		// 获取 API数据
+    var params = [
+      {
+        page:state.tableData.param.pageNum,
+        per_page:state.tableData.param.pageSize,
+        name:'',
+        status:0,
+      }
+    ]
+    useLoginApi().listApi(params).then((res)=>{
+      if (res.code == 200 ) {
+        res.data.data.forEach((item) => {
+          return data.push({
+            id: item.id,
+            title: item.title,
+            hidden: item.hidden,
+            type: item.type,
+            url: item.url,
+            method: item.method,
+            sort: item.sort,
+            status: item.status,
+            value: item.status == 1 ? true: false,
+            remark: item.remark,
+            created_at: item.created_at,
+            updated_at: item.updated_at
+          });
+        })
+        state.tableData.data = data;
+        state.tableData.total = state.tableData.data.length;
+      }
+    })
+
 		const menuTableData = computed(() => {
-			return routesList.value;
+			return state.tableData.data;
 		});
 		// 打开新增菜单弹窗
 		const onOpenAddMenu = () => {
 			addMenuRef.value.openDialog();
 		};
 		// 打开编辑菜单弹窗
-		const onOpenEditMenu = (row: RouteRecordRaw) => {
+		const onOpenEditApi = (row: RouteRecordRaw) => {
 			editMenuRef.value.openDialog(row);
 		};
 		// 删除当前行
@@ -104,7 +188,7 @@ export default defineComponent({
 			addMenuRef,
 			editMenuRef,
 			onOpenAddMenu,
-			onOpenEditMenu,
+      onOpenEditApi,
 			menuTableData,
 			onTabelRowDel,
 			...toRefs(state),

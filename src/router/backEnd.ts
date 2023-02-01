@@ -115,7 +115,7 @@ export function getBackEndControlRoutes() {
 /**
  * 重新请求后端路由菜单接口
  * @description 用于菜单管理界面刷新菜单（未进行测试）
- * @description 路径：/src/views/system/menu/component/addMenu.vue
+ * @description 路径：/src/views/system/menu/component/addApi.vue
  */
 export function setBackEndControlRefreshRoutes() {
 	getBackEndControlRoutes();

@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent } from 'vue';
-import { UpdateRole} from "/@/api/role";
+import { useRole} from "/@/api/role";
 import {ElMessage} from "element-plus/es";
 
 // 定义接口来定义对象的类型
@@ -144,7 +144,7 @@ export default defineComponent({
       state.roleForm.status = state.ruleForm.status == true ? 1 : 2
       state.roleForm.sort = state.ruleForm.sort
       state.roleForm.describe = state.ruleForm.describe
-      UpdateRole(state.roleForm).then((res)=>{
+      useRole().UpdateRole(state.roleForm).then((res)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
           closeDialog();

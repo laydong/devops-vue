@@ -3,7 +3,7 @@ import request from '/@/utils/request';
 
 export function MenuList(params?: object) {
 	return request({
-		url: '/v1/menu/list',
+		url: '/menu/list',
 		method: 'get',
 		params
 	})
