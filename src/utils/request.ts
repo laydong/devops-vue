@@ -38,6 +38,7 @@ service.interceptors.response.use(
 					.then(() => {})
 					.catch(() => {});
 			}
+			ElMessage.error(res.msg || 'Error');
 			// return Promise.reject(new Error(res.msg || 'Error'))
 		} else {
 			return res;

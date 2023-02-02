@@ -25,13 +25,14 @@
           </el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="是否超管">
-              <el-switch v-model="ruleForm.isAdmin" inline-prompt active-text="是" inactive-text="否"></el-switch>
+              <el-switch v-model="ruleForm.isAdmin" :active-value="1" :inactive-value="2" inline-prompt active-text="是" inactive-text="否"></el-switch>
 <!--							<el-input-number v-model="ruleForm.is_admin" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />-->
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="角色状态">
-							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+              <el-switch v-model="ruleForm.status" :active-value="1" :inactive-value="2" inline-prompt active-text="启" inactive-text="禁" @click="OpenStatus(scope.row)"></el-switch>
+<!--							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>-->
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -70,9 +71,9 @@ interface MenuDataTree {
 interface DialogRow {
   id :number;
 	name: string;
-	isAdmin: boolean;
+	isAdmin: number;
 	sort: number;
-	status: boolean;
+	status: number;
 	describe: string;
 }
 

@@ -24,105 +24,36 @@
             </el-form-item>
           </el-col>
 
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="是否鉴权">
-              <div style="margin-top: 20px">
-                <el-radio v-model="ruleForm.hidden" label=1 border size="medium">鉴权</el-radio>
-                <el-radio v-model="ruleForm.hidden" label=2 border size="medium">不鉴权</el-radio>
-              </div>
-<!--              <el-radio v-model="ruleForm.hidden" label=1>鉴权</el-radio>-->
-<!--              <el-radio v-model="ruleForm.hidden" label=2>不鉴权</el-radio>-->
-<!--							<el-radio-group v-model="ruleForm.hidden">-->
-<!--								<el-radio label=1>鉴权</el-radio>-->
-<!--								<el-radio label=2>不鉴权</el-radio>-->
-<!--							</el-radio-group>-->
-						</el-form-item>
-					</el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+            <el-form-item label="是否鉴权">
+              <el-radio-group v-model="ruleForm.hidden">
+                <el-radio :label="1">鉴权</el-radio>
+                <el-radio :label="2">不鉴权</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
 
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
             <el-form-item label="鉴权类型">
-              <div style="margin-top: 20px">
-                <el-radio v-model="ruleForm.type" label=1 border size="medium">角色鉴权</el-radio>
-                <el-radio v-model="ruleForm.type" label=2 border size="medium">登录鉴权</el-radio>
-              </div>
-              <!--              <el-radio v-model="ruleForm.hidden" label=1>鉴权</el-radio>-->
-              <!--              <el-radio v-model="ruleForm.hidden" label=2>不鉴权</el-radio>-->
-              <!--							<el-radio-group v-model="ruleForm.hidden">-->
-              <!--								<el-radio label=1>鉴权</el-radio>-->
-              <!--								<el-radio label=2>不鉴权</el-radio>-->
-              <!--							</el-radio-group>-->
+              <el-radio-group v-model="ruleForm.type">
+                <el-radio :label="1">角色鉴权</el-radio>
+                <el-radio :label="2">登录鉴权</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
 
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
             <el-form-item label="状态">
-              <el-switch v-model="ruleForm.status"  active-value=1 inactive-value=2>></el-switch>
+              <el-switch v-model="ruleForm.status" :active-value="1" :inactive-value="2" inline-prompt active-text="启" inactive-text="禁"></el-switch>
             </el-form-item>
           </el-col>
+
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="菜单排序">
 							<el-input-number v-model="ruleForm.sort" controls-position="right" placeholder="请输入排序" class="w100" />
 						</el-form-item>
 					</el-col>
-
-<!--          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-
-<!--          </el-col>-->
-
-<!--					<template v-if="ruleForm.menuType === 'menu'">-->
-<!--						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--							<el-form-item label="是否隐藏">-->
-<!--								<el-radio-group v-model="ruleForm.meta.isHide">-->
-<!--									<el-radio :label="true">隐藏</el-radio>-->
-<!--									<el-radio :label="false">不隐藏</el-radio>-->
-<!--								</el-radio-group>-->
-<!--							</el-form-item>-->
-<!--						</el-col>-->
-<!--						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--							<el-form-item label="页面缓存">-->
-<!--								<el-radio-group v-model="ruleForm.meta.isKeepAlive">-->
-<!--									<el-radio :label="true">缓存</el-radio>-->
-<!--									<el-radio :label="false">不缓存</el-radio>-->
-<!--								</el-radio-group>-->
-<!--							</el-form-item>-->
-<!--						</el-col>-->
-<!--						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--							<el-form-item label="是否固定">-->
-<!--								<el-radio-group v-model="ruleForm.meta.isAffix">-->
-<!--									<el-radio :label="true">固定</el-radio>-->
-<!--									<el-radio :label="false">不固定</el-radio>-->
-<!--								</el-radio-group>-->
-<!--							</el-form-item>-->
-<!--						</el-col>-->
-<!--						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--							<el-form-item label="是否外链">-->
-<!--								<el-radio-group v-model="ruleForm.isLink" :disabled="ruleForm.meta.isIframe">-->
-<!--									<el-radio :label="true">是</el-radio>-->
-<!--									<el-radio :label="false">否</el-radio>-->
-<!--								</el-radio-group>-->
-<!--							</el-form-item>-->
-<!--						</el-col>-->
-<!--						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--							<el-form-item label="是否内嵌">-->
-<!--								<el-radio-group v-model="ruleForm.meta.isIframe" @change="onSelectIframeChange">-->
-<!--									<el-radio :label="true">是</el-radio>-->
-<!--									<el-radio :label="false">否</el-radio>-->
-<!--								</el-radio-group>-->
-<!--							</el-form-item>-->
-<!--						</el-col>-->
-<!--					</template>-->
 				</el-row>
-
-        <template>
-          <el-radio v-model="ruleForm.type" label="1">备选项1</el-radio>
-          <el-radio v-model="ruleForm.type" label="2">备选项2</el-radio>
-        </template>
-        <el-form-item label="鉴权类型">
-          <el-radio-group v-model="ruleForm.type">
-            <el-radio label=1>角色鉴权</el-radio>
-            <el-radio label=2>登录鉴权</el-radio>
-          </el-radio-group>
-        </el-form-item>
 
         <el-form-item label="接口说明">
           <el-input type="textarea" v-model="ruleForm.remark"></el-input>
@@ -140,18 +71,17 @@
 
 <script lang="ts">
 import { reactive, toRefs, onMounted, defineComponent } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRoutesList } from '/@/stores/routesList';
-import { i18n } from '/@/i18n/index';
-// import IconSelector from '/@/components/iconSelector/index.vue';
-// import { setBackEndControlRefreshRoutes } from "/@/router/backEnd";
+// import index from '/@/views/system/api/index.vue';
+// import { useRoutesList } from '/@/stores/routesList';
+// import { i18n } from '/@/i18n/index';
+// import { getTableData } from "vue";
+import {useApi} from "/@/api/api";
+import {ElMessage} from "element-plus/es";
 
 export default defineComponent({
-	name: 'systemEditMenu',
-	// components: { IconSelector },
+	name: 'systemEditApi',
+	// components: { index },
 	setup() {
-		const stores = useRoutesList();
-		const { routesList } = storeToRefs(stores);
 		const state = reactive({
 			isShowDialog: false,
 			// 参数请参考 `/src/router/route.ts` 中的 `dynamicRoutes` 路由菜单格式
@@ -164,7 +94,6 @@ export default defineComponent({
         method: '',
         sort: 99,
         status:1,
-        value:false,
         remark:'',
         created_at:'',
         updated_at:'',
@@ -197,28 +126,10 @@ export default defineComponent({
         value: 'trace',
         label: 'TRACE'
       }],
-			menuData: [], // 上级菜单数据
+			// menuData: [], // 上级菜单数据
 		});
-		// 获取 vuex 中的路由
-		const getMenuData = (routes: any) => {
-			const arr: any = [];
-			routes.map((val: any) => {
-				val['title'] = i18n.global.t(val.meta.title);
-				val['id'] = Math.random();
-				arr.push({ ...val });
-				if (val.children) getMenuData(val.children);
-			});
-			return arr;
-		};
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			// 模拟数据，实际请走接口
-			row.menuType = 'menu';
-			row.menuSort = Math.random();
-			row.component = `${row.component} `
-				.match(/\'(.+)\'/g)
-				?.join('')
-				.replace(/\'/g, '');
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
@@ -226,28 +137,44 @@ export default defineComponent({
 		const closeDialog = () => {
 			state.isShowDialog = false;
 		};
-		// 是否内嵌下拉改变
-		const onSelectIframeChange = () => {
-			if (state.ruleForm.meta.isIframe) state.ruleForm.isLink = true;
-			else state.ruleForm.isLink = false;
-		};
 		// 取消
 		const onCancel = () => {
 			closeDialog();
 		};
 		// 新增
 		const onSubmit = () => {
-			closeDialog(); // 关闭弹窗
-			// setBackEndControlRefreshRoutes() // 刷新菜单，未进行后端接口测试
+      if (state.ruleForm.title ==""){
+        ElMessage.error('请填写API标题');
+        return
+      }
+
+      if (state.ruleForm.url ==""){
+        ElMessage.error('请填写API路由');
+        return;
+      }
+
+      if (state.ruleForm.method ==""){
+        ElMessage.error('请选择请求方式');
+        return;
+      }
+      useApi().updateApi(state.ruleForm).then((res :any)=>{
+        if (res.code == 200 ) {
+          ElMessage.success(res.msg)
+          closeDialog(); // 关闭弹窗
+          window.location.reload();
+        } else  {
+          ElMessage.error(res.msg);
+        }
+      })
 		};
 		// 页面加载时
 		onMounted(() => {
-			state.menuData = getMenuData(routesList.value);
+			// state.menuData = getMenuData(routesList.value);
 		});
 		return {
 			openDialog,
 			closeDialog,
-			onSelectIframeChange,
+			// onSelectIframeChange,
 			onCancel,
 			onSubmit,
 			...toRefs(state),

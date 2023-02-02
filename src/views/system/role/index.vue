@@ -21,15 +21,14 @@
 				<el-table-column prop="name" label="角色名称" show-overflow-tooltip></el-table-column>
         <el-table-column prop="isAdmin" label="是否超管" show-overflow-tooltip>
           <template #default="scope">
-            <el-tag type="success" v-if="scope.row.isAdmin">是</el-tag>
+            <el-tag type="success" v-if="scope.row.isAdmin == 1">是</el-tag>
             <el-tag type="info" v-else>否</el-tag>
           </template>
         </el-table-column>
 				<el-table-column prop="status" label="角色状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
-					</template>
+          <template #default="scope">
+            <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" inline-prompt active-text="启" inactive-text="禁" @click="OpenStatus(scope.row)"></el-switch>
+          </template>
 				</el-table-column>
         <el-table-column prop="sort" label="排序" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="describe" label="角色描述" show-overflow-tooltip></el-table-column>
@@ -49,9 +48,9 @@
 				class="mt15"
 				:pager-count="5"
 				:page-sizes="[10, 20, 30]"
-				v-model:current-page="tableData.param.pageNum"
+				v-model:current-page="tableData.param.page"
 				background
-				v-model:page-size="tableData.param.pageSize"
+				v-model:page-size="tableData.param.per_page"
 				layout="total, sizes, prev, pager, next, jumper"
 				:total="tableData.total"
 			>
@@ -75,9 +74,9 @@ interface TableData {
 	name: string;
 	// roleSign: string;
 	describe: string;
-  isAdmin:boolean;
+  isAdmin:number;
 	sort: number;
-	status: boolean;
+	status: number;
 	createTime: string;
 }
 interface TableDataState {
@@ -86,8 +85,10 @@ interface TableDataState {
 		total: number;
 		loading: boolean;
 		param: {
-			pageNum: number;
-			pageSize: number;
+      page: number;
+      per_page: number;
+      name:string;
+      status:number;
 		};
 	};
 }
@@ -104,32 +105,26 @@ export default defineComponent({
 				total: 0,
 				loading: false,
 				param: {
-					pageNum: 1,
-					pageSize: 10,
+          page: 1,
+          per_page: 10,
+          name:'',
+          status:0,
 				},
 			},
 		});
 		// 初始化表格数据
 		const initTableData = () => {
 			const data: Array<TableData> = [];
-      var params = [
-        {
-          page:state.tableData.param.pageNum,
-          per_page:state.tableData.param.pageSize,
-          name:'',
-          status:0,
-        }
-      ]
-      useRole().getRoleList(params).then((res)=>{
+      useRole().getRoleList(state.tableData.param).then((res:any)=>{
         if (res.code == 200 ) {
-          res.data.data.forEach((v: { name: any; describe: any; id: any; sort:any, status: number;is_admin:number, created_at: any; }, i: number) => {
+          res.data.data.forEach((v:any) => {
             return data.push({
               id: v.id,
               name: v.name,
               sort: v.sort,
               describe: v.describe,
-              isAdmin: v.is_admin == 1 ? true : false,
-              status: v.status === 1 ? true : false,
+              isAdmin: v.is_admin,
+              status: v.status,
               createTime: v.created_at,
             });
           })
@@ -138,6 +133,18 @@ export default defineComponent({
         }
       })
 		};
+
+    const OpenStatus = (row:any) =>{
+      useRole().UpdateRole(row).then((res:any)=>{
+        if (res.code == 200 ) {
+          if (row.status == 1){
+            row.status = 2
+          }else {
+            row.status = 1
+          }
+        }
+      })
+    }
 		// 打开新增角色弹窗
 		const onOpenAddRole = () => {
 			addRoleRef.value.openDialog();
@@ -160,11 +167,11 @@ export default defineComponent({
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
+			state.tableData.param.per_page = val;
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
+			state.tableData.param.page = val;
 		};
 		// 页面加载时
 		onMounted(() => {
@@ -173,6 +180,7 @@ export default defineComponent({
 		return {
 			addRoleRef,
 			editRoleRef,
+      OpenStatus,
 			onOpenAddRole,
 			onOpenEditRole,
 			onRowDel,
