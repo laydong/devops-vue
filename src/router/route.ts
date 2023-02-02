@@ -14,6 +14,7 @@ import { RouteRecordRaw } from 'vue-router';
  * }
  */
 
+// @ts-ignore
 /**
  * 定义动态路由
  * 前端添加路由，请在顶级节点的 `children 数组` 里添加
@@ -25,6 +26,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: '/',
+		type:1,
 		component: () => import('/@/layout/index.vue'),
 		redirect: '/home',
 		meta: {
@@ -34,6 +36,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/home',
 				name: 'home',
+				type:1,
 				component: () => import('/@/views/home/index.vue'),
 				meta: {
 					title: 'message.router.home',
@@ -42,13 +45,14 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: true,
 					isIframe: false,
-					roles: ['admin', 'common'],
+					// roles: ['admin', 'common'],
 					icon: 'iconfont icon-shouye',
 				},
 			},
 			{
 				path: '/system',
 				name: 'system',
+				type:1,
 				component: () => import('/@/layout/routerView/parent.vue'),
 				redirect: '/system/menu',
 				meta: {
@@ -65,6 +69,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					{
 						path: '/system/menu',
 						name: 'systemMenu',
+						type:1,
 						component: () => import('/@/views/system/menu/index.vue'),
 						meta: {
 							title: 'message.router.systemMenu',
@@ -76,10 +81,29 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							roles: ['admin'],
 							icon: 'iconfont icon-caidan',
 						},
+						children: [
+							{
+								path: '/system/menu/add',
+								name: 'systemMenuAdd',
+								type:2,
+								component: () => import('/@/views/system/menu/component/addMenu.vue'),
+								meta: {
+									title: 'message.router.systemMenuAdd',
+									isLink: '',
+									isHide: false,
+									isKeepAlive: true,
+									isAffix: false,
+									isIframe: false,
+									roles: ['admin'],
+									icon: 'iconfont icon-caidan',
+								},
+							},
+						]
 					},
 					{
 						path: '/system/api',
 						name: 'systemApi',
+						type:1,
 						component: () => import('/@/views/system/api/index.vue'),
 						meta: {
 							title: 'message.router.systemApi',
@@ -95,6 +119,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					{
 						path: '/system/role',
 						name: 'systemRole',
+						type:1,
 						component: () => import('/@/views/system/role/index.vue'),
 						meta: {
 							title: 'message.router.systemRole',
@@ -110,6 +135,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					{
 						path: '/system/user',
 						name: 'systemUser',
+						type:1,
 						component: () => import('/@/views/system/user/index.vue'),
 						meta: {
 							title: 'message.router.systemUser',
@@ -125,6 +151,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					{
 						path: '/system/dept',
 						name: 'systemDept',
+						type:1,
 						component: () => import('/@/views/system/dept/index.vue'),
 						meta: {
 							title: 'message.router.systemDept',
@@ -140,6 +167,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					{
 						path: '/system/dic',
 						name: 'systemDic',
+						type:1,
 						component: () => import('/@/views/system/dic/index.vue'),
 						meta: {
 							title: 'message.router.systemDic',
@@ -157,6 +185,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/limits',
 				name: 'limits',
+				type:1,
 				component: () => import('/@/layout/routerView/parent.vue'),
 				redirect: '/limits/frontEnd',
 				meta: {

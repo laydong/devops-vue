@@ -41,7 +41,9 @@
 				</el-table-column>
 				<el-table-column label="类型" show-overflow-tooltip width="80">
 					<template #default="scope">
-						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
+            <el-tag type="success" v-if="scope.row.type == 1" size="small">菜单</el-tag>
+            <el-tag type="info" v-else size="small">按钮</el-tag>
+<!--						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>-->
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" show-overflow-tooltip width="140">
@@ -78,6 +80,8 @@ export default defineComponent({
 		const state = reactive({});
 		// 获取 vuex 中的路由
 		const menuTableData = computed(() => {
+      // eslint-disable-next-line no-console
+      console.log(routesList.value)
 			return routesList.value;
 		});
 		// 打开新增菜单弹窗

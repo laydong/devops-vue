@@ -4,6 +4,7 @@ export default {
 		home: '首页',
 		system: '系统设置',
 		systemMenu: '菜单管理',
+		systemMenuAdd: '菜单管理-新增菜单',
 		systemApi: 'API管理',
 		systemRole: '角色管理',
 		systemUser: '用户管理',
