@@ -15,6 +15,7 @@
 					</el-icon>
 					新增菜单
 				</el-button>
+        <el-button size="default" type="primary" class="ml10" @click="onOpenSyncMenu">同步菜单</el-button>
 			</div>
 			<el-table :data="menuTableData" style="width: 100%" row-key="path" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 				<el-table-column label="菜单名称" show-overflow-tooltip>
@@ -68,20 +69,19 @@ import { storeToRefs } from 'pinia';
 import { useRoutesList } from '/@/stores/routesList';
 import AddMenu from '/@/views/system/menu/component/addMenu.vue';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
+import {useMenuApi} from "/@/api/menu";
 
 export default defineComponent({
 	name: 'systemMenu',
 	components: { AddMenu, EditMenu },
 	setup() {
 		const stores = useRoutesList();
-		const { routesList } = storeToRefs(stores);
+		const { routesList,routesAll } = storeToRefs(stores);
 		const addMenuRef = ref();
 		const editMenuRef = ref();
 		const state = reactive({});
 		// 获取 vuex 中的路由
 		const menuTableData = computed(() => {
-      // eslint-disable-next-line no-console
-      console.log(routesList.value)
 			return routesList.value;
 		});
 		// 打开新增菜单弹窗
@@ -104,11 +104,25 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
+
+    //同步菜单
+    const onOpenSyncMenu = () => {
+      // eslint-disable-next-line no-console
+      console.log(routesAll.value)
+      // JSON.parse(JSON.stringify(routesAll.value))
+      useMenuApi().syncMenu({'data':routesAll.value}).then((res:any)=>{
+        if (res.code == 200 ) {
+          ElMessage.success('OK');
+        }
+      })
+    }
+
 		return {
 			addMenuRef,
 			editMenuRef,
 			onOpenAddMenu,
 			onOpenEditMenu,
+      onOpenSyncMenu,
 			menuTableData,
 			onTabelRowDel,
 			...toRefs(state),

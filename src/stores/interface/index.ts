@@ -41,6 +41,7 @@ export interface TagsViewRoutesState {
 // 路由列表
 export interface RoutesListState {
 	routesList: string[];
+	routesAll:string[];
 	isColumnsMenuHover: Boolean;
 	isColumnsNavHover: Boolean;
 }

@@ -7,13 +7,17 @@ import { RoutesListState } from './interface';
  * @methods setColumnsMenuHover 设置分栏布局菜单鼠标移入 boolean
  * @methods setColumnsNavHover 设置分栏布局最左侧导航鼠标移入 boolean
  */
-export const useRoutesList = defineStore('routesList', {
+export const useRoutesList = defineStore('routesList',{
 	state: (): RoutesListState => ({
 		routesList: [],
+		routesAll: [],
 		isColumnsMenuHover: false,
 		isColumnsNavHover: false,
 	}),
 	actions: {
+		async setRoutesAll(data: Array<string>) {
+			this.routesAll = data;
+		},
 		async setRoutesList(data: Array<string>) {
 			this.routesList = data;
 		},

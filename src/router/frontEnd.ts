@@ -115,6 +115,7 @@ export function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
 	const { userInfos } = storeToRefs(stores);
 	storesRoutesList.setRoutesList(setFilterHasRolesMenu(dynamicRoutes[0].children, userInfos.value.roles));
+	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children, userInfos.value.roles));
 	setCacheTagsViewRoutes();
 }
 
@@ -140,11 +141,20 @@ export function setFilterHasRolesMenu(routes: any, roles: any) {
 	routes.forEach((route: any) => {
 		const item = { ...route };
 		if (item.type != 2) {
-			// if (hasRoles(roles, item)) {
-				if (item.children) item.children = setFilterHasRolesMenu(item.children, roles);
-				menu.push(item);
-			// }
+			if (item.children) item.children = setFilterHasRolesMenu(item.children, roles);
+			menu.push(item);
 		}
+	});
+	return menu;
+}
+
+
+export function setFilterHasMenu(routes: any, roles: any) {
+	const menu: any = [];
+	routes.forEach((route: any) => {
+		const item = { ...route };
+		if (item.children) item.children = setFilterHasMenu(item.children, roles);
+		menu.push(item);
 	});
 	return menu;
 }

@@ -1,33 +1,38 @@
 import request from '/@/utils/request';
 
 
-export function MenuList(params?: object) {
-	return request({
-		url: '/menu/list',
-		method: 'get',
-		params
-	})
-}
-
 /**
- * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu
  * 后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
- * @method getMenuAdmin 获取后端动态路由菜单(admin)
- * @method getMenuTest 获取后端动态路由菜单(test)
+ * @method getMenuList 获取后端动态路由菜单
+ * @method syncMenu 同步后端动态路由菜单
  */
 export function useMenuApi() {
 	return {
-		getMenuAdmin: (params?: object) => {
+		getMenuList: (params?: object) => {
 			return request({
-				url: '/gitee/lyt-top/vue-next-admin-images/raw/master/menu/adminMenu.json',
+				url: '/menu/list',
 				method: 'get',
 				params,
 			});
 		},
-		getMenuTest: (params?: object) => {
+		syncMenu: (params?: object) => {
 			return request({
-				url: '/gitee/lyt-top/vue-next-admin-images/raw/master/menu/testMenu.json',
-				method: 'get',
+				url: '/menu/sync',
+				method: 'post',
+				data:params,
+			});
+		},
+		createMenu: (params?: object) => {
+			return request({
+				url: '/menu/create',
+				method: 'post',
+				data:params,
+			});
+		},
+		updateMenu: (params?: object) => {
+			return request({
+				url: '/menu/update',
+				method: 'post',
 				params,
 			});
 		},
