@@ -26,7 +26,6 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: '/',
-		type:1,
 		component: () => import('/@/layout/index.vue'),
 		redirect: '/home',
 		meta: {
@@ -36,7 +35,6 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/home',
 				name: 'home',
-				type:1,
 				component: () => import('/@/views/home/index.vue'),
 				meta: {
 					title: 'message.router.home',
@@ -45,9 +43,17 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: true,
 					isIframe: false,
-					// roles: ['admin', 'common'],
 					icon: 'iconfont icon-shouye',
 				},
+				api:[
+					{
+						url:'api.user.info',
+						method:'get',
+						service_code:'cloud-user'
+					}
+				],
+				hidden:1,
+				type:1,
 			},
 			{
 				path: '/system',
