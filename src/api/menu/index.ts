@@ -22,6 +22,12 @@ export function useMenuApi() {
 				data:params,
 			});
 		},
+		getMenuAll: () => {
+			return request({
+				url: '/menu/all',
+				method: 'get',
+			});
+		},
 		createMenu: (params?: object) => {
 			return request({
 				url: '/menu/create',

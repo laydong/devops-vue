@@ -13,8 +13,6 @@ import { RouteRecordRaw } from 'vue-router';
  *      icon：          菜单、tagsView 图标，阿里：加 `iconfont xxx`，fontawesome：加 `fa xxx`
  * }
  */
-
-// @ts-ignore
 /**
  * 定义动态路由
  * 前端添加路由，请在顶级节点的 `children 数组` 里添加
@@ -22,7 +20,8 @@ import { RouteRecordRaw } from 'vue-router';
  * @description 各字段请查看 `/@/views/system/menu/component/addApi.vue 下的 ruleForm`
  * @returns 返回路由菜单数据
  */
-export const dynamicRoutes: Array<RouteRecordRaw> = [
+export let dynamicRoutes: Array<RouteRecordRaw>;
+dynamicRoutes = [
 	{
 		path: '/',
 		name: '/',
@@ -44,21 +43,20 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isAffix: true,
 					isIframe: false,
 					icon: 'iconfont icon-shouye',
-				},
-				api:[
-					{
-						url:'api.user.info',
-						method:'get',
-						service_code:'cloud-user'
-					}
-				],
-				hidden:1,
-				type:1,
+					hidden: 1,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
+				}
 			},
 			{
 				path: '/system',
 				name: 'system',
-				type:1,
 				component: () => import('/@/layout/routerView/parent.vue'),
 				redirect: '/system/menu',
 				meta: {
@@ -68,14 +66,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin'],
 					icon: 'iconfont icon-xitongshezhi',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
 						path: '/system/menu',
 						name: 'systemMenu',
-						type:1,
 						component: () => import('/@/views/system/menu/index.vue'),
 						meta: {
 							title: 'message.router.systemMenu',
@@ -86,30 +91,45 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isIframe: false,
 							roles: ['admin'],
 							icon: 'iconfont icon-caidan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
-						children: [
-							{
-								path: '/system/menu/add',
-								name: 'systemMenuAdd',
-								type:2,
-								component: () => import('/@/views/system/menu/component/addMenu.vue'),
-								meta: {
-									title: 'message.router.systemMenuAdd',
-									isLink: '',
-									isHide: false,
-									isKeepAlive: true,
-									isAffix: false,
-									isIframe: false,
-									roles: ['admin'],
-									icon: 'iconfont icon-caidan',
-								},
-							},
-						]
+						// children: [
+						// 	{
+						// 		path: '/system/menu/add',
+						// 		name: 'systemMenuAdd',
+						// 		component: () => import('/@/views/system/menu/component/addMenu.vue'),
+						// 		meta: {
+						// 			title: 'message.router.systemMenuAdd',
+						// 			isLink: '',
+						// 			isHide: false,
+						// 			isKeepAlive: true,
+						// 			isAffix: false,
+						// 			isIframe: false,
+						// 			icon: 'iconfont icon-caidan',
+						// 			hidden: 2,
+						// 			type: 2,
+						// 			api: [
+						// 				{
+						// 					url: 'api.user.info',
+						// 					method: 'get',
+						// 					service_code: 'cloud-user'
+						// 				}
+						// 			]
+						// 		},
+						// 	},
+						// ]
 					},
 					{
 						path: '/system/api',
 						name: 'systemApi',
-						type:1,
 						component: () => import('/@/views/system/api/index.vue'),
 						meta: {
 							title: 'message.router.systemApi',
@@ -118,14 +138,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-caidan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
 						path: '/system/role',
 						name: 'systemRole',
-						type:1,
 						component: () => import('/@/views/system/role/index.vue'),
 						meta: {
 							title: 'message.router.systemRole',
@@ -134,14 +161,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-ColdDrink',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
 						path: '/system/user',
 						name: 'systemUser',
-						type:1,
 						component: () => import('/@/views/system/user/index.vue'),
 						meta: {
 							title: 'message.router.systemUser',
@@ -150,14 +184,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-icon-',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
 						path: '/system/dept',
 						name: 'systemDept',
-						type:1,
 						component: () => import('/@/views/system/dept/index.vue'),
 						meta: {
 							title: 'message.router.systemDept',
@@ -166,14 +207,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-OfficeBuilding',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
 						path: '/system/dic',
 						name: 'systemDic',
-						type:1,
 						component: () => import('/@/views/system/dic/index.vue'),
 						meta: {
 							title: 'message.router.systemDic',
@@ -182,8 +230,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-SetUp',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -191,7 +247,6 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/limits',
 				name: 'limits',
-				type:1,
 				component: () => import('/@/layout/routerView/parent.vue'),
 				redirect: '/limits/frontEnd',
 				meta: {
@@ -201,8 +256,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-quanxian',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -217,8 +280,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: '',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 						children: [
 							{
@@ -232,8 +303,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: '',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 							{
@@ -247,8 +326,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: '',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 						],
@@ -264,8 +351,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: '',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 						children: [
 							{
@@ -279,8 +374,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: '',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 						],
@@ -299,8 +402,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-caidan',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -315,8 +426,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-caidan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 						children: [
 							{
@@ -330,8 +449,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: 'iconfont icon-caidan',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 							{
@@ -346,8 +473,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: 'iconfont icon-caidan',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 								children: [
 									{
@@ -361,8 +496,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 											isKeepAlive: true,
 											isAffix: false,
 											isIframe: false,
-											roles: ['admin', 'common'],
 											icon: 'iconfont icon-caidan',
+											hidden: 2,
+											type: 1,
+											api: [
+												{
+													url: 'api.user.info',
+													method: 'get',
+													service_code: 'cloud-user'
+												}
+											]
 										},
 									},
 									{
@@ -376,8 +519,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 											isKeepAlive: true,
 											isAffix: false,
 											isIframe: false,
-											roles: ['admin', 'common'],
 											icon: 'iconfont icon-caidan',
+											hidden: 2,
+											type: 1,
+											api: [
+												{
+													url: 'api.user.info',
+													method: 'get',
+													service_code: 'cloud-user'
+												}
+											]
 										},
 									},
 								],
@@ -393,8 +544,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: true,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: 'iconfont icon-caidan',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 						],
@@ -410,8 +569,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-caidan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -428,8 +595,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-crew_feature',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -443,8 +618,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Pointer',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -458,8 +641,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Odometer',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -473,8 +664,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-fuwenbenkuang',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -488,8 +687,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-caijian',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -503,8 +710,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-ico',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -518,8 +733,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-ditu',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -533,8 +756,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Printer',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -548,8 +779,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-DocumentCopy',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -563,8 +802,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-tuodong',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -578,8 +825,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon--chaifenlie',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -596,8 +851,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-fuzhiyemian',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -611,8 +874,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Sell',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 						/**
 						 * 注意此处详情写法：
@@ -632,8 +903,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 									isKeepAlive: false,
 									isAffix: false,
 									isIframe: false,
-									roles: ['admin', 'common'],
 									icon: 'ele-Sunny',
+									hidden: 2,
+									type: 1,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
 								},
 							},
 						],
@@ -649,8 +928,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: false,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Sunny',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -664,8 +951,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Present',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -679,8 +974,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Eleme',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -694,8 +997,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-SetUp',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -709,8 +1020,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-biaodan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -724,8 +1043,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-jiliandongxuanzeqi',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -739,8 +1066,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-diqiu',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -754,8 +1089,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-shuxing',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -769,8 +1112,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-chazhaobiaodanliebiao',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -784,8 +1135,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-zidingyibuju',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -799,8 +1158,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-step',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -814,8 +1181,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-15tupianyulan',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -829,8 +1204,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-bolangneng',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -844,8 +1227,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-shuxingtu',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -859,8 +1250,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Pointer',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -874,8 +1273,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-PictureFilled',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -889,8 +1296,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-diannao',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -904,8 +1319,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-Connection',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -922,8 +1345,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin'],
 					icon: 'iconfont icon-siweidaotu',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -937,8 +1368,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'iconfont icon-xuanzeqi',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -952,8 +1391,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'ele-Bell',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -967,8 +1414,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin', 'common'],
 							icon: 'fa fa-thumbs-o-up',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -985,8 +1440,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin'],
 					icon: 'iconfont icon-zhongduancanshu',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -1000,8 +1463,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-putong',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -1015,8 +1486,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-Comment',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -1030,8 +1509,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-dongtai',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					/**
@@ -1049,8 +1536,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'ele-Lightning',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -1067,8 +1562,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin'],
 					icon: 'ele-ChatLineRound',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 				children: [
 					{
@@ -1082,8 +1585,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: false,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-caozuo-wailian',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 					{
@@ -1097,8 +1608,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 							isKeepAlive: false,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
 							icon: 'iconfont icon-caozuo-wailian',
+							hidden: 2,
+							type: 1,
+							api: [
+								{
+									url: 'api.user.info',
+									method: 'get',
+									service_code: 'cloud-user'
+								}
+							]
 						},
 					},
 				],
@@ -1114,8 +1633,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-ico_shuju',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 			},
 			{
@@ -1129,8 +1656,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-gerenzhongxin',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 			},
 			{
@@ -1144,8 +1679,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin', 'common'],
 					icon: 'iconfont icon-gongju',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 			},
 			{
@@ -1159,8 +1702,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: false,
 					isAffix: false,
 					isIframe: false,
-					roles: ['admin'],
 					icon: 'iconfont icon-caozuo-wailian',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 			},
 			{
@@ -1174,8 +1725,16 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 					isKeepAlive: false,
 					isAffix: true,
 					isIframe: true,
-					roles: ['admin'],
 					icon: 'iconfont icon-neiqianshujuchucun',
+					hidden: 2,
+					type: 1,
+					api: [
+						{
+							url: 'api.user.info',
+							method: 'get',
+							service_code: 'cloud-user'
+						}
+					]
 				},
 			},
 		],

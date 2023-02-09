@@ -112,7 +112,7 @@ export default defineComponent({
       // JSON.parse(JSON.stringify(routesAll.value))
       useMenuApi().syncMenu({'data':routesAll.value}).then((res:any)=>{
         if (res.code == 200 ) {
-          ElMessage.success('OK');
+          ElMessage.success(res.msg);
         }
       })
     }

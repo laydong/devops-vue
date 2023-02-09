@@ -16,6 +16,7 @@ service.interceptors.request.use(
 		if (Session.get('token')) {
 			(<any>config.headers).common['Authorization'] = `${Session.get('token')}`;
 		}
+		(<any>config.headers).common['APP-NAME'] = import.meta.env.VITE_APP_NAME;
 		return config;
 	},
 	(error) => {

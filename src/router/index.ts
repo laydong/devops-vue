@@ -104,17 +104,16 @@ router.beforeEach(async (to, from, next) => {
 			const storesRoutesList = useRoutesList(pinia);
 			const { routesList } = storeToRefs(storesRoutesList);
 			if (routesList.value.length === 0) {
-				if (isRequestRoutes) {
+				// if (isRequestRoutes) {
 					// 后端控制路由：路由数据初始化，防止刷新时丢失
 					await initBackEndControlRoutes();
 					// 动态添加路由：防止非首页刷新时跳转回首页的问题
 					// 确保 addRoute() 时动态添加的路由已经被完全加载上去
 					next({ ...to, replace: true });
-				} else {
-					// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
-					await initFrontEndControlRoutes();
-					next({ ...to, replace: true });
-				}
+				// } else {
+				// 	await initFrontEndControlRoutes();
+				// 	next({ ...to, replace: true });
+				// }
 			} else {
 				next();
 			}

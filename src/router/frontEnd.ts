@@ -24,7 +24,6 @@ export async function initFrontEndControlRoutes() {
 	// 无 token 停止执行下一步
 	if (!Session.get('token')) return false;
 	// 触发初始化用户信息 pinia
-	// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
 	await useUserInfo(pinia).setUserInfos();
 	// 添加动态路由
 	await setAddRoute();
@@ -97,10 +96,8 @@ export function setFilterRoute(chil: any) {
  */
 export function setCacheTagsViewRoutes() {
 	// 获取有权限的路由，否则 tagsView、菜单搜索中无权限的路由也将显示
-	const stores = useUserInfo(pinia);
 	const storesTagsView = useTagsViewRoutes(pinia);
-	const { userInfos } = storeToRefs(stores);
-	let rolesRoutes = setFilterHasRolesMenu(dynamicRoutes, userInfos.value.roles);
+	let rolesRoutes = setFilterHasRolesMenu(dynamicRoutes);
 	// 添加到 pinia setTagsViewRoutes 中
 	storesTagsView.setTagsViewRoutes(formatTwoStageRoutes(formatFlatteningRoutes(rolesRoutes))[0].children);
 }
@@ -111,11 +108,9 @@ export function setCacheTagsViewRoutes() {
  * @description 用于 tagsView、菜单搜索中：未过滤隐藏的(isHide)
  */
 export function setFilterMenuAndCacheTagsViewRoutes() {
-	const stores = useUserInfo(pinia);
 	const storesRoutesList = useRoutesList(pinia);
-	const { userInfos } = storeToRefs(stores);
-	storesRoutesList.setRoutesList(setFilterHasRolesMenu(dynamicRoutes[0].children, userInfos.value.roles));
-	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children, userInfos.value.roles));
+	storesRoutesList.setRoutesList(setFilterHasRolesMenu(dynamicRoutes[0].children));
+	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children));
 	setCacheTagsViewRoutes();
 }
 
@@ -136,12 +131,12 @@ export function hasRoles(roles: any, route: any) {
  * @param roles 用户权限标识，在 userInfos（用户信息）的 roles（登录页登录时缓存到浏览器）数组
  * @returns 返回有权限的路由数组 `meta.roles` 中控制
  */
-export function setFilterHasRolesMenu(routes: any, roles: any) {
+export function setFilterHasRolesMenu(routes: any) {
 	const menu: any = [];
 	routes.forEach((route: any) => {
 		const item = { ...route };
 		if (item.type != 2) {
-			if (item.children) item.children = setFilterHasRolesMenu(item.children, roles);
+			if (item.children) item.children = setFilterHasRolesMenu(item.children);
 			menu.push(item);
 		}
 	});
@@ -149,11 +144,11 @@ export function setFilterHasRolesMenu(routes: any, roles: any) {
 }
 
 
-export function setFilterHasMenu(routes: any, roles: any) {
+export function setFilterHasMenu(routes: any) {
 	const menu: any = [];
 	routes.forEach((route: any) => {
 		const item = { ...route };
-		if (item.children) item.children = setFilterHasMenu(item.children, roles);
+		if (item.children) item.children = setFilterHasMenu(item.children);
 		menu.push(item);
 	});
 	return menu;
