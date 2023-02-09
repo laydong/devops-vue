@@ -135,7 +135,7 @@ export function setFilterHasRolesMenu(routes: any) {
 	const menu: any = [];
 	routes.forEach((route: any) => {
 		const item = { ...route };
-		if (item.type != 2) {
+		if (item.meta.type != 2) {
 			if (item.children) item.children = setFilterHasRolesMenu(item.children);
 			menu.push(item);
 		}

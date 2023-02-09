@@ -101,31 +101,31 @@ dynamicRoutes = [
 								}
 							]
 						},
-						// children: [
-						// 	{
-						// 		path: '/system/menu/add',
-						// 		name: 'systemMenuAdd',
-						// 		component: () => import('/@/views/system/menu/component/addMenu.vue'),
-						// 		meta: {
-						// 			title: 'message.router.systemMenuAdd',
-						// 			isLink: '',
-						// 			isHide: false,
-						// 			isKeepAlive: true,
-						// 			isAffix: false,
-						// 			isIframe: false,
-						// 			icon: 'iconfont icon-caidan',
-						// 			hidden: 2,
-						// 			type: 2,
-						// 			api: [
-						// 				{
-						// 					url: 'api.user.info',
-						// 					method: 'get',
-						// 					service_code: 'cloud-user'
-						// 				}
-						// 			]
-						// 		},
-						// 	},
-						// ]
+						children: [
+							{
+								path: '/system/menu/add',
+								name: 'systemMenuAdd',
+								component: () => import('/@/views/system/menu/component/addMenu.vue'),
+								meta: {
+									title: 'message.router.systemMenuAdd',
+									isLink: '',
+									isHide: false,
+									isKeepAlive: true,
+									isAffix: false,
+									isIframe: false,
+									icon: 'iconfont icon-caidan',
+									hidden: 2,
+									type: 2,
+									api: [
+										{
+											url: 'api.user.info',
+											method: 'get',
+											service_code: 'cloud-user'
+										}
+									]
+								},
+							},
+						]
 					},
 					{
 						path: '/system/api',

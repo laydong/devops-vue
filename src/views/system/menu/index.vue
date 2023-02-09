@@ -107,9 +107,6 @@ export default defineComponent({
 
     //同步菜单
     const onOpenSyncMenu = () => {
-      // eslint-disable-next-line no-console
-      console.log(routesAll.value)
-      // JSON.parse(JSON.stringify(routesAll.value))
       useMenuApi().syncMenu({'data':routesAll.value}).then((res:any)=>{
         if (res.code == 200 ) {
           ElMessage.success(res.msg);

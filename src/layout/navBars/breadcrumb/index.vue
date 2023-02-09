@@ -79,7 +79,7 @@ export default defineComponent({
 			const currentPathSplit = path.split('/');
 			let currentData: any = {};
 			filterRoutesFun(routesList.value).map((v, k) => {
-				if (v.path === `/${currentPathSplit[1]}`) {
+				if (v.path === `/${currentPathSplit[1]}` && v.meta.type != 2) {
 					v['k'] = k;
 					currentData['item'] = [{ ...v }];
 					currentData['children'] = [{ ...v }];

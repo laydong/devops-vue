@@ -7,7 +7,7 @@ import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-import {setFilterHasMenu, setFilterHasRolesMenu} from "/@/router/frontEnd";
+import {setFilterHasMenu} from "/@/router/frontEnd";
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -48,28 +48,27 @@ export async function initBackEndControlRoutes() {
  */
 export function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
-	storesRoutesList.setRoutesList(setFilterHasRolesMenu(dynamicRoutes[0].children));
+	storesRoutesList.setRoutesList(setBackEndHasRolesMenu(dynamicRoutes[0].children,useUserInfo().userInfos.userMenu));
 	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children));
 	setCacheTagsViewRoutes();
 }
 
 
-export function setBackEndHasRolesMenu(routes: any) {
+export function setBackEndHasRolesMenu(routes: any,userMenu:any) {
 	const menu: any = [];
-	routes.forEach((route: any) => {
-		const item = { ...route };
-		// userMenu.forEach((items: any) => {
-		// 	if (item.name == items.number) {
-		// 		if (item.children && items.children) item.children = setBackEndHasRolesMenu(item.children,items.children);
-		// 		menu.push(item);
-		// 	}
-		// })
-		if (item.type == 1) {
-			if (item.children ) item.children = setBackEndHasRolesMenu(item.children);
-			menu.push(item);
-		}
+	routes.forEach((item: any) => {
+		userMenu.forEach((items: any) => {
+			if (item.name == items.number && item.meta.type != 2) {
+				console.log(items)
+				console.log(item)
+				if (item.children && items.children){
+					item.children = setBackEndHasRolesMenu(item.children,items.children);
+				}
+				menu.push(item);
+			}
+		})
 	})
-	return routes;
+	return menu;
 }
 
 /**
