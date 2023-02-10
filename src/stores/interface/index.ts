@@ -13,9 +13,9 @@ export interface UserInfosState {
 	status:number;
 	login_ip:string;
 	login_time :string;
-	userMenu:any
+	menu_info:any
+	role_info:any
 	authBtnList: string[];
-	roles: string[];
 	time: number;
 }
 export interface UserInfosStates {

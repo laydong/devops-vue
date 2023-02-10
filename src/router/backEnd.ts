@@ -48,7 +48,7 @@ export async function initBackEndControlRoutes() {
  */
 export function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
-	storesRoutesList.setRoutesList(setBackEndHasRolesMenu(dynamicRoutes[0].children,useUserInfo().userInfos.userMenu));
+	storesRoutesList.setRoutesList(setBackEndHasRolesMenu(dynamicRoutes[0].children,useUserInfo().userInfos.menu_info));
 	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children));
 	setCacheTagsViewRoutes();
 }
@@ -58,11 +58,9 @@ export function setBackEndHasRolesMenu(routes: any,userMenu:any) {
 	const menu: any = [];
 	routes.forEach((item: any) => {
 		userMenu.forEach((items: any) => {
-			if (item.name == items.number && item.meta.type != 2) {
-				console.log(items)
-				console.log(item)
-				if (item.children && items.children){
-					item.children = setBackEndHasRolesMenu(item.children,items.children);
+			if (item.name == items && item.meta.type != 2) {
+				if (item.children){
+					item.children = setBackEndHasRolesMenu(item.children,userMenu);
 				}
 				menu.push(item);
 			}

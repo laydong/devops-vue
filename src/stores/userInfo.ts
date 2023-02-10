@@ -20,8 +20,8 @@ export const useUserInfo = defineStore('userInfo', {
 			login_time:'',
 			login_ip:'',
 			time: 0,
-			userMenu:[],
-			roles: [],
+			menu_info:[],
+			role_info: [],
 			authBtnList: [],
 		},
 	}),
@@ -53,19 +53,13 @@ export const useUserInfo = defineStore('userInfo', {
 							this.userInfos.status = res.data.status
 							this.userInfos.login_ip = res.data.login_ip
 							this.userInfos.login_time = res.data.login_time
+							this.userInfos.menu_info = res.data.menu_info
+							this.userInfos.role_info = res.data.role_info
 						}
 					})
-					useMenuApi().getMenuAll().then((res:any)=>{
-						if (res.code == 200 ) {
-							this.userInfos.userMenu = res.data
-						}
-					})
-					// admin 页面权限标识，对应路由 meta.roles，用于控制路由的显示/隐藏
-					let adminRoles: Array<string> = ['admin'];
 					// admin 按钮权限标识
 					let adminAuthBtnList: Array<string> = ['btn.add', 'btn.del', 'btn.edit', 'btn.link'];
 					this.userInfos.time = new Date().getTime()
-					this.userInfos.roles = adminRoles
 					this.userInfos.authBtnList = adminAuthBtnList
 					Session.set('userInfo',this.userInfos)
 					resolve(this.userInfos);
