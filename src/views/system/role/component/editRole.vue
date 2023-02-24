@@ -8,31 +8,14 @@
 							<el-input v-model="ruleForm.name" placeholder="请输入角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
-<!--					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">-->
-<!--						<el-form-item label="角色标识">-->
-<!--							<template #label>-->
-<!--								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">-->
-<!--									<span>角色标识</span>-->
-<!--								</el-tooltip>-->
-<!--							</template>-->
-<!--							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>-->
-<!--						</el-form-item>-->
-<!--					</el-col>-->
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
             <el-form-item label="排序">
               <el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
             </el-form-item>
           </el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="是否超管">
-              <el-switch v-model="ruleForm.isAdmin" :active-value="1" :inactive-value="2" inline-prompt active-text="是" inactive-text="否"></el-switch>
-<!--							<el-input-number v-model="ruleForm.is_admin" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />-->
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="角色状态">
               <el-switch v-model="ruleForm.status" :active-value="1" :inactive-value="2" inline-prompt active-text="启" inactive-text="禁" @click="OpenStatus(scope.row)"></el-switch>
-<!--							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>-->
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -71,7 +54,6 @@ interface MenuDataTree {
 interface DialogRow {
   id :number;
 	name: string;
-	isAdmin: number;
 	sort: number;
 	status: number;
 	describe: string;
@@ -80,7 +62,6 @@ interface DialogRow {
 interface Role {
   id :number;
   name: string;
-  is_admin: number;
   sort: number;
   status: number;
   describe: string;
@@ -104,15 +85,13 @@ export default defineComponent({
 			ruleForm: {
         id:0,//ID
 				name: '', // 角色名称
-				isAdmin: false, // 是否超级管理
 				sort: 0, // 排序
-				status: true, // 角色状态
+				status: 1, // 角色状态
 				describe: '', // 角色描述
 			},
       roleForm: {
         id:0,//ID
         name: '', // 角色名称
-        is_admin: 0, // 是否超级管理
         sort: 0, // 排序
         status: 2, // 角色状态
         describe: '', // 角色描述
@@ -141,11 +120,10 @@ export default defineComponent({
 		const onSubmit = () => {
       state.roleForm.id = state.ruleForm.id
       state.roleForm.name = state.ruleForm.name
-      state.roleForm.is_admin = state.ruleForm.isAdmin == true ? 1 : 0
-      state.roleForm.status = state.ruleForm.status == true ? 1 : 2
+      state.roleForm.status = state.ruleForm.status
       state.roleForm.sort = state.ruleForm.sort
       state.roleForm.describe = state.ruleForm.describe
-      useRole().UpdateRole(state.roleForm).then((res)=>{
+      useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
           closeDialog();

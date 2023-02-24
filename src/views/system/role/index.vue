@@ -19,12 +19,12 @@
 			<el-table :data="tableData.data" style="width: 100%">
 				<el-table-column prop="id" label="序号" width="60" />
 				<el-table-column prop="name" label="角色名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="isAdmin" label="是否超管" show-overflow-tooltip>
-          <template #default="scope">
-            <el-tag type="success" v-if="scope.row.isAdmin == 1">是</el-tag>
-            <el-tag type="info" v-else>否</el-tag>
-          </template>
-        </el-table-column>
+<!--        <el-table-column prop="isAdmin" label="是否超管" show-overflow-tooltip>-->
+<!--          <template #default="scope">-->
+<!--            <el-tag type="success" v-if="scope.row.isAdmin == 1">是</el-tag>-->
+<!--            <el-tag type="info" v-else>否</el-tag>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 				<el-table-column prop="status" label="角色状态" show-overflow-tooltip>
           <template #default="scope">
             <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" inline-prompt active-text="启" inactive-text="禁" @click="OpenStatus(scope.row)"></el-switch>
