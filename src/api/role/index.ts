@@ -15,6 +15,13 @@ export function useRole() {
 				params,
 			});
 		},
+		getRoleInfo: (params?: object) => {
+			return request({
+				url: '/role/info',
+				method: 'get',
+				params,
+			});
+		},
 		UpdateRole: (params?: object) => {
 			return request({
 				url: '/role/update',

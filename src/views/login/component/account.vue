@@ -84,6 +84,7 @@ export default defineComponent({
 				userName: '282756287',
 				password: '123456',
 				code: '1234',
+        type: 1,
 			},
 			loading: {
 				signIn: false,

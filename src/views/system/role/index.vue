@@ -74,7 +74,7 @@ interface TableData {
 	name: string;
 	// roleSign: string;
 	describe: string;
-  isAdmin:number;
+  group_id:number;
 	sort: number;
 	status: number;
 	createTime: string;
@@ -123,7 +123,7 @@ export default defineComponent({
               name: v.name,
               sort: v.sort,
               describe: v.describe,
-              isAdmin: v.is_admin,
+              group_id: v.group_id,
               status: v.status,
               createTime: v.created_at,
             });

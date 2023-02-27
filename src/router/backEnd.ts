@@ -7,7 +7,6 @@ import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-import {setFilterHasMenu} from "/@/router/frontEnd";
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -49,7 +48,7 @@ export async function initBackEndControlRoutes() {
 export function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
 	storesRoutesList.setRoutesList(setBackEndHasRolesMenu(dynamicRoutes[0].children,useUserInfo().userInfos.menu_info));
-	storesRoutesList.setRoutesAll(setFilterHasMenu(dynamicRoutes[0].children));
+	storesRoutesList.setRoutesAll(setBackEndHasHasMenu(dynamicRoutes[0].children));
 	setCacheTagsViewRoutes();
 }
 
@@ -57,14 +56,24 @@ export function setFilterMenuAndCacheTagsViewRoutes() {
 export function setBackEndHasRolesMenu(routes: any,userMenu:any) {
 	const menu: any = [];
 	routes.forEach((item: any) => {
-		userMenu.forEach((items: any) => {
-			if (item.name == items && item.meta.type != 2) {
+		// userMenu.forEach((items: any) => {
+			if ( item.meta.type != 2) {
 				if (item.children){
 					item.children = setBackEndHasRolesMenu(item.children,userMenu);
 				}
 				menu.push(item);
 			}
-		})
+		// })
+	})
+	return menu;
+}
+
+
+export function setBackEndHasHasMenu(routes: any) {
+	const menu: any = [];
+	routes.forEach((item: any) => {
+		if (item.children) item.children = setBackEndHasHasMenu(item.children);
+		menu.push(item);
 	})
 	return menu;
 }
