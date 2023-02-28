@@ -25,9 +25,9 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="菜单权限">
-							<el-tree :data="menuData"
+							<el-tree  ref="treeRef"
+                       :data="menuData"
                        :props="menuProps"
-                       :default-checked-keys="roleForm.menu_ids"
                        node-key="id"
                        highlight-current
                        show-checkbox
@@ -38,7 +38,7 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
+					<el-button @click="getCheckedKeys" size="default">取 消</el-button>
 					<el-button type="primary" @click="onSubmit" size="default">修 改</el-button>
 				</span>
 			</template>
@@ -46,11 +46,15 @@
 	</div>
 </template>
 
+
 <script lang="ts">
-import {reactive, toRefs, defineComponent} from 'vue';
+import {reactive, toRefs, defineComponent,ref} from 'vue';
+import { ElTree } from 'element-plus'
 import { useRole} from "/@/api/role";
 import {ElMessage} from "element-plus/es";
-import {useMenuApi} from "/@/api/menu";
+// import {useMenuApi} from "/@/api/menu";
+
+const treeRef = ref<InstanceType<typeof ElTree>>()
 // 定义接口来定义对象的类型
 interface MenuDataTree {
 	id: number;
@@ -76,7 +80,6 @@ interface RoleState {
 	};
   menu_ids:any;
 }
-
 export default defineComponent({
 	name: 'systemEditRole',
 	setup() {
@@ -120,9 +123,8 @@ export default defineComponent({
 		};
 		// 更新
 		const onSubmit = () => {
-      // state.roleForm.menu_ids.getCheckedNodes(false, true)
-      // console.log(state.roleForm)
-
+      // eslint-disable-next-line no-console
+      // console.log(treeRef.value?.getCheckedKeys(false))
       useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
@@ -134,122 +136,73 @@ export default defineComponent({
 		};
 		// 获取菜单结构数据
 		const getMenuData = () => {
-      useMenuApi().getMenuAll().then((res:any)=>{
-        if ( res.code == 200 ) {
-          state.menuData = res.data
-        }
-      })
-			// state.menuData = [
-			// 	{
-			// 		id: 1,
-			// 		label: '系统管理',
-			// 		children: [
-			// 			{
-			// 				id: 11,
-			// 				label: '菜单管理',
-			// 				children: [
-			// 					{
-			// 						id: 111,
-			// 						label: '菜单新增',
-			// 					},
-			// 					{
-			// 						id: 112,
-			// 						label: '菜单修改',
-			// 					},
-			// 					{
-			// 						id: 113,
-			// 						label: '菜单删除',
-			// 					},
-			// 					{
-			// 						id: 114,
-			// 						label: '菜单查询',
-			// 					},
-			// 				],
-			// 			},
-			// 			{
-			// 				id: 12,
-			// 				label: '角色管理',
-			// 				children: [
-			// 					{
-			// 						id: 121,
-			// 						label: '角色新增',
-			// 					},
-			// 					{
-			// 						id: 122,
-			// 						label: '角色修改',
-			// 					},
-			// 					{
-			// 						id: 123,
-			// 						label: '角色删除',
-			// 					},
-			// 					{
-			// 						id: 124,
-			// 						label: '角色查询',
-			// 					},
-			// 				],
-			// 			},
-			// 			{
-			// 				id: 13,
-			// 				label: '用户管理',
-			// 				children: [
-			// 					{
-			// 						id: 131,
-			// 						label: '用户新增',
-			// 					},
-			// 					{
-			// 						id: 132,
-			// 						label: '用户修改',
-			// 					},
-			// 					{
-			// 						id: 133,
-			// 						label: '用户删除',
-			// 					},
-			// 					{
-			// 						id: 134,
-			// 						label: '用户查询',
-			// 					},
-			// 				],
-			// 			},
-			// 		],
-			// 	},
-			// 	{
-			// 		id: 2,
-			// 		label: '权限管理',
-			// 		children: [
-			// 			{
-			// 				id: 21,
-			// 				label: '前端控制',
-			// 				children: [
-			// 					{
-			// 						id: 211,
-			// 						label: '页面权限',
-			// 					},
-			// 					{
-			// 						id: 212,
-			// 						label: '页面权限',
-			// 					},
-			// 				],
-			// 			},
-			// 			{
-			// 				id: 22,
-			// 				label: '后端控制',
-			// 				children: [
-			// 					{
-			// 						id: 221,
-			// 						label: '页面权限',
-			// 					},
-			// 				],
-			// 			},
-			// 		],
-			// 	},
-			// ];
-		};
+      state.menuData = [
+        {
+          id: 1,
+          label: 'Level one 1',
+          children: [
+            {
+              id: 4,
+              label: 'Level two 1-1',
+              children: [
+                {
+                  id: 9,
+                  label: 'Level three 1-1-1',
+                },
+                {
+                  id: 10,
+                  label: 'Level three 1-1-2',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: 'Level one 2',
+          children: [
+            {
+              id: 5,
+              label: 'Level two 2-1',
+            },
+            {
+              id: 6,
+              label: 'Level two 2-2',
+            },
+          ],
+        },
+        {
+          id: 3,
+          label: 'Level one 3',
+          children: [
+            {
+              id: 7,
+              label: 'Level two 3-1',
+            },
+            {
+              id: 8,
+              label: 'Level two 3-2',
+            },
+          ],
+        },
+      ]
 
+
+      // useMenuApi().getMenuAll().then((res:any)=>{
+      //   if ( res.code == 200 ) {
+      //     state.menuData = res.data
+      //   }
+      // })
+		};
+    const getCheckedKeys = () => {
+      console.log(treeRef.value.getCheckedKeys(false))
+    }
 		return {
 			openDialog,
 			closeDialog,
 			onCancel,
 			onSubmit,
+      getCheckedKeys,
 			...toRefs(state),
 		};
 	},
