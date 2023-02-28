@@ -38,7 +38,7 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="getCheckedKeys" size="default">取 消</el-button>
+					<el-button @click="onCancel" size="default">取 消</el-button>
 					<el-button type="primary" @click="onSubmit" size="default">修 改</el-button>
 				</span>
 			</template>
@@ -52,16 +52,8 @@ import {reactive, toRefs, defineComponent,ref} from 'vue';
 import { ElTree } from 'element-plus'
 import { useRole} from "/@/api/role";
 import {ElMessage} from "element-plus/es";
-// import {useMenuApi} from "/@/api/menu";
-
-const treeRef = ref<InstanceType<typeof ElTree>>()
+import {useMenuApi} from "/@/api/menu";
 // 定义接口来定义对象的类型
-interface MenuDataTree {
-	id: number;
-	label: string;
-	children?: MenuDataTree[];
-}
-
 interface Role {
   id :number;
   name: string;
@@ -70,19 +62,25 @@ interface Role {
   describe: string;
   menu_ids: any;
 }
+interface Tree {
+  id: number
+  label: string
+  children?: Tree[]
+}
 interface RoleState {
 	isShowDialog: boolean;
   roleForm:Role;
-	menuData: Array<MenuDataTree>;
+	menuData: Array<Tree>;
 	menuProps: {
 		children: string;
 		label: string;
 	};
-  menu_ids:any;
 }
+
 export default defineComponent({
 	name: 'systemEditRole',
 	setup() {
+    const treeRef = ref<InstanceType<typeof ElTree>>()
 		const state = reactive<RoleState>({
 			isShowDialog: false,
       roleForm: {
@@ -97,8 +95,7 @@ export default defineComponent({
 			menuProps: {
 				children: 'children',
 				label: 'label',
-			},
-      menu_ids:[],
+			}
 		});
 		// 打开弹窗
 		const openDialog = (row: Role) => {
@@ -125,6 +122,7 @@ export default defineComponent({
 		const onSubmit = () => {
       // eslint-disable-next-line no-console
       // console.log(treeRef.value?.getCheckedKeys(false))
+      state.roleForm.menu_ids = treeRef.value!.getCheckedKeys(false)
       useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
@@ -136,73 +134,23 @@ export default defineComponent({
 		};
 		// 获取菜单结构数据
 		const getMenuData = () => {
-      state.menuData = [
-        {
-          id: 1,
-          label: 'Level one 1',
-          children: [
-            {
-              id: 4,
-              label: 'Level two 1-1',
-              children: [
-                {
-                  id: 9,
-                  label: 'Level three 1-1-1',
-                },
-                {
-                  id: 10,
-                  label: 'Level three 1-1-2',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: 'Level one 2',
-          children: [
-            {
-              id: 5,
-              label: 'Level two 2-1',
-            },
-            {
-              id: 6,
-              label: 'Level two 2-2',
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: 'Level one 3',
-          children: [
-            {
-              id: 7,
-              label: 'Level two 3-1',
-            },
-            {
-              id: 8,
-              label: 'Level two 3-2',
-            },
-          ],
-        },
-      ]
-
-
-      // useMenuApi().getMenuAll().then((res:any)=>{
-      //   if ( res.code == 200 ) {
-      //     state.menuData = res.data
-      //   }
-      // })
+      useMenuApi().getMenuAll().then((res:any)=>{
+        if ( res.code == 200 ) {
+          state.menuData = res.data
+        }
+      })
 		};
-    const getCheckedKeys = () => {
-      console.log(treeRef.value.getCheckedKeys(false))
-    }
+
+    // const getCheckedKeys = () => {
+    //   console.log(treeRef.value!.getCheckedKeys(false))
+    // }
 		return {
 			openDialog,
 			closeDialog,
 			onCancel,
 			onSubmit,
-      getCheckedKeys,
+      // getCheckedKeys,
+      treeRef,
 			...toRefs(state),
 		};
 	},
