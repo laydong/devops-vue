@@ -28,6 +28,7 @@
 							<el-tree  ref="treeRef"
                        :data="menuData"
                        :props="menuProps"
+                        :default-checked-keys="roleForm.menu_ids"
                        node-key="id"
                        highlight-current
                        show-checkbox
@@ -121,6 +122,10 @@ export default defineComponent({
 		// 更新
 		const onSubmit = () => {
       state.roleForm.menu_ids = treeRef.value!.getCheckedKeys(false)
+      if ((state.roleForm.menu_ids).length == 0){
+        ElMessage.error("请选择权限");
+        return
+      }
       useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);
