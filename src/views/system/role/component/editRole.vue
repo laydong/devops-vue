@@ -120,8 +120,6 @@ export default defineComponent({
 		};
 		// 更新
 		const onSubmit = () => {
-      // eslint-disable-next-line no-console
-      // console.log(treeRef.value?.getCheckedKeys(false))
       state.roleForm.menu_ids = treeRef.value!.getCheckedKeys(false)
       useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
@@ -140,16 +138,11 @@ export default defineComponent({
         }
       })
 		};
-
-    // const getCheckedKeys = () => {
-    //   console.log(treeRef.value!.getCheckedKeys(false))
-    // }
 		return {
 			openDialog,
 			closeDialog,
 			onCancel,
 			onSubmit,
-      // getCheckedKeys,
       treeRef,
 			...toRefs(state),
 		};

@@ -26,7 +26,7 @@ export function useRole() {
 			return request({
 				url: '/role/update',
 				method: 'post',
-				params,
+				data:params,
 			});
 		},
 	};
