@@ -49,7 +49,7 @@
 
 
 <script lang="ts">
-import {reactive, toRefs, defineComponent,ref} from 'vue';
+import {reactive, toRefs, defineComponent, ref} from 'vue';
 import { ElTree } from 'element-plus'
 import { useRole} from "/@/api/role";
 import {ElMessage} from "element-plus/es";
@@ -101,15 +101,17 @@ export default defineComponent({
 		// 打开弹窗
 		const openDialog = (row: Role) => {
 			state.roleForm = row;
+      state.roleForm.menu_ids = []
       useRole().getRoleInfo({"id":state.roleForm.id}).then((res:any)=>{
         if ( res.code == 200 ) {
           state.roleForm = res.data
         }else {
           ElMessage.error(res.msg);
+          return
         }
       })
+      getMenuData()
 			state.isShowDialog = true;
-			getMenuData();
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -122,10 +124,10 @@ export default defineComponent({
 		// 更新
 		const onSubmit = () => {
       state.roleForm.menu_ids = treeRef.value!.getCheckedKeys(false)
-      if ((state.roleForm.menu_ids).length == 0){
-        ElMessage.error("请选择权限");
-        return
-      }
+      // if ((state.roleForm.menu_ids).length == 0){
+      //   ElMessage.error("请选择权限");
+      //   return
+      // }
       useRole().UpdateRole(state.roleForm).then((res:any)=>{
         if ( res.code == 200 ) {
           ElMessage.success(res.msg);

@@ -29,5 +29,12 @@ export function useRole() {
 				data:params,
 			});
 		},
+		CreateRole: (params?: object) => {
+			return request({
+				url: '/role/create',
+				method: 'post',
+				data:params,
+			});
+		},
 	};
 }
